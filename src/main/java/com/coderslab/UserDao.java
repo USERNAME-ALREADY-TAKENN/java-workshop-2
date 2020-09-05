@@ -7,9 +7,10 @@ public class UserDao {
     private static final String QUERY_ADD = "INSERT INTO users(name, password, email) VALUES (?,?,?)";
     private static final String QUERY_REMOVE = "DELETE FROM users WHERE id=?";
     private static final String QUERY_UPDATE_ALL = "UPDATE users SET name=?, password=?, email=? WHERE id=?";
-    private static final String queryUpdateOne = "UPDATE users SET ?=? WHERE ?=?";
+    //private static final String queryUpdateOne = "UPDATE users SET ?=? WHERE ?=?";
     private static final String QUERY_GET_USER = "SELECT * FROM users WHERE id = ?";
     private static final String QUERY_GET_PASSWORD = "SELECT password FROM users WHERE id=?";
+    private static final String QUERY_COUNT_USERS = "SELECT COUNT(*) FROM users";
     private static final String QUERY_GET_ALL_USERS = "SELECT * FROM users";
 
     public static User create(User user) {
@@ -93,24 +94,35 @@ public class UserDao {
         return null;
     }
 
-    public static User[] getAllUsers() {
-        User[] users;
+    public static int getNumberOfUsers() throws SQLException {
 
         try (Connection conn = DBUtil.connect();) {
-//            PreparedStatement stmt = conn.prepareStatement(QUERY_GET_ALL_USERS);
-//            stmt.setInt(1, userId);
-            PreparedStatement statement = conn.prepareStatement(QUERY_GET_ALL_USERS, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = conn.prepareStatement(QUERY_COUNT_USERS);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
+    public static User[] getAllUsers() throws SQLException {
+        int numOfUsers = getNumberOfUsers();
+        User[] users = new User[numOfUsers];
 
+        try (Connection conn = DBUtil.connect();) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(QUERY_GET_ALL_USERS);
-            rs.next();
-            int id = rs.getInt(1);
-            String name = rs.getString(2);
-            String password = rs.getString(3);
-            String email = rs.getString(4);
-            User user = new User(name, password, email);
-            user.setId(id);
+
+            for(int i=0; rs.next(); i++) {
+                int test = rs.getInt(1);
+                users[i] = new User();
+                users[i].setId(test);
+                users[i].setName(rs.getString(2));
+                users[i].setPassword(rs.getString(3));
+                users[i].setEmail(rs.getString(4));
+            }
             return users;
         } catch (Exception e) {
             e.printStackTrace();

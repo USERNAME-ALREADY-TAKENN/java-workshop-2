@@ -74,6 +74,16 @@ public class User {
         return user;
     }
 
+    public static void listAllUsers() throws SQLException {
+        User[] users = UserDao.getAllUsers();
+
+        System.out.println("\n\tID - NAME - (EMAIL)");
+        for (int i = 0; i < users.length; i++) {
+            System.out.println("\t"+String.valueOf(users[i].id) + " - " + users[i].name + " (" + users[i].email+")");
+        }
+        System.out.println();
+    }
+
     public int getId() {
         return id;
     }

@@ -12,7 +12,6 @@ public class Main {
                 "Wyjdź"
         };
         chooseAction(menu);
-
     }
     public static int getInput(int menuLength) {
         Scanner scan = new Scanner(System.in);
@@ -24,21 +23,19 @@ public class Main {
         return chosenOption;
     }
     public static void chooseAction(String[] menu) throws SQLException {
-
         showMenu(menu);
         int chosenOption = getInput(menu.length);
 
         switch (chosenOption) {
-            case 1:
-
+            case 1: User.listAllUsers();
+                    break;
             case 2: System.out.println("\tDodano użytkownika: " + User.createUser().getInfo() + "\n");
-                break;
+                    break;
             case 3: System.out.println("\tNowe dane: " + User.modifyUser().getInfo() + "\n");
-                break;
+                    break;
             case 4: System.out.println("\tUżytkownik: " + User.removeUser().getInfo() + " został usunięty.\n");
-                break;
-            default:
-                break;
+                    break;
+            default: break;
         }
         chooseAction(menu);
     }
@@ -48,28 +45,4 @@ public class Main {
         }
         System.out.print("\tWybierz opcję: ");
     }
-//    public static void showList (String[] menu) {
-//        int lineLength = 50;
-//        String leftDecorator = "\t█\t";
-//        String rightDecorator = "█";
-//        String topDecorator = "█";
-//        String bottomDecorator = "█";
-//
-//        System.out.println("\n\t" + fill("", lineLength + 3, topDecorator));
-//        for (int i = 0; i < dataList.length; i++) {
-//            String filledLine = fill(leftDecorator + (i+1) + ". " + dataList[i], lineLength + rightDecorator.length(), " ");
-//            System.out.print(filledLine + rightDecorator + "\n");
-//        }
-//        System.out.println("\t" + fill("", lineLength + 3, bottomDecorator));
-//
-//        showMenu(menu);
-
-//    }
-//
-//    public static String fill(String toFill, int lenghtMatch, String fillString) {
-//        lenghtMatch = lenghtMatch - toFill.length();
-//        String filler = new String(new char[lenghtMatch]).replace("\0", fillString);
-//        String filledString = toFill + filler;
-//        return filledString;
-//    }
 }
