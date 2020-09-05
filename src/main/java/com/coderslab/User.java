@@ -8,11 +8,21 @@ public class User {
     private String password;
     private String email;
 
-    public User(String name, String password, String email) throws SQLException {
+    public User() {
+    }
+
+    public User(String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
-        UserDao.addUser(this);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,5 +47,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getInfo () {
+        return this.id + ", " + this.name + ", " + this.email;
     }
 }

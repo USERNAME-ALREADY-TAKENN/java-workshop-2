@@ -13,7 +13,11 @@ public class Main {
         System.out.print("Podaj email: ");
         String email = scan.nextLine();
 
-        //User user = new User(name, password, email);
+        User user = new User(name, password, email);
+        UserDao.create(user);
+        System.out.println(user.getInfo());
+        user.re
+        UserDao.removeUser(user.getId());
 
 
     }
