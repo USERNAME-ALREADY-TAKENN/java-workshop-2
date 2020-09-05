@@ -13,29 +13,35 @@ public class Main {
         };
         chooseAction(menu);
     }
-    public static int getInput(int menuLength) {
+    public static int getInput() {
         Scanner scan = new Scanner(System.in);
         while (!scan.hasNextInt()) {
             scan.next();
-            System.out.print("\tZła wartość. Podaj liczbę pomiędzy 1 a " + (menuLength) + ": ");
+            System.out.print("\t!!! Zła wartość. Podaj liczbę !!! ");
         }
         int chosenOption = scan.nextInt();
         return chosenOption;
     }
     public static void chooseAction(String[] menu) throws SQLException {
         showMenu(menu);
-        int chosenOption = getInput(menu.length);
+        int chosenOption = getInput();
 
         switch (chosenOption) {
             case 1: User.listAllUsers();
                     break;
-            case 2: System.out.println("\tDodano użytkownika: " + User.createUser().getInfo() + "\n");
+            case 2: User createdUser = User.createUser();
+                    if(createdUser != null) System.out.println("\tDodano użytkownika: " + createdUser.getInfo() + "\n");
                     break;
-            case 3: System.out.println("\tNowe dane: " + User.modifyUser().getInfo() + "\n");
+            case 3: User modifiedUser = User.modifyUser();
+                    if(modifiedUser != null) System.out.println("\tNowe dane: " + modifiedUser.getInfo() + "\n");
                     break;
-            case 4: System.out.println("\tUżytkownik: " + User.removeUser().getInfo() + " został usunięty.\n");
+            case 4: User removedUser = User.removeUser();
+                    if(removedUser != null) System.out.println("\tUżytkownik: " + removedUser.getInfo() + " został usunięty.\n");
                     break;
-            default: break;
+            case 5: return;
+            default:
+                    System.out.println("\t!!! Zła wartość. Podaj liczbę !!!\n");
+                    break;
         }
         chooseAction(menu);
     }

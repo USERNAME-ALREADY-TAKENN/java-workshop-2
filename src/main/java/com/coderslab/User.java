@@ -37,29 +37,36 @@ public class User {
 
     public static User removeUser() throws SQLException {
         System.out.print("\tPodaj ID użytkownika: ");
-        Scanner scan = new Scanner(System.in);
-        int choiceId = scan.nextInt();
+        int choiceId = Main.getInput();
         User user = UserDao.findUser(choiceId);
-        UserDao.removeUser(user.getId());
+        if(user != null) UserDao.removeUser(user.getId());
+        else System.out.println("\t!!! Brak takiego użytkownika !!!\n");
         return user;
     }
 
     public static User modifyUser() throws SQLException {
         Scanner scan = new Scanner(System.in);
         System.out.print("\tPodaj ID użytkownika: ");
-        String choiceId = scan.nextLine();
-        User user = UserDao.findUser(Integer.parseInt(choiceId));
+        int choiceId = Main.getInput();
+        User user = UserDao.findUser(choiceId);
         if (user == null) {
-            System.out.println("Brak takiego użytkownika");
+            System.out.println("\t!!! Brak takiego użytkownika !!!\n");
             return null;
         }
-        System.out.print("\tWybrano: " + user.getInfo());
-        System.out.print("\tPodaj hasło, aby zmienić dane: ");
+        System.out.print("\n\tWybrano: " + user.getInfo());
+        System.out.print("\n\tPodaj hasło, aby zmienić dane: ");
         String password = scan.nextLine();
 
         String hashedPassword = user.getPasswordFromDB();
-        if (!BCrypt.checkpw(password, hashedPassword)) {
-            System.out.println("\tBłędne hasło! ");
+        try {
+            BCrypt.checkpw(password, hashedPassword);
+            //poniższe wyrzuca exception
+//            if (!BCrypt.checkpw(password, hashedPassword)) {
+//                System.out.println("\tBłędne hasło! ");
+//                return null;
+//            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("\t!!! BŁĘDNE HASŁO !!! \n");
             return null;
         }
         System.out.println("\tPodaj nowe dane");

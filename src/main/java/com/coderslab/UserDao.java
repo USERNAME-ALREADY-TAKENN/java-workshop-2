@@ -63,7 +63,7 @@ public class UserDao {
             user.setId(id);
             return user;
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }
@@ -75,7 +75,7 @@ public class UserDao {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -89,7 +89,7 @@ public class UserDao {
             rs.next();
             return rs.getString(1);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }
@@ -102,7 +102,7 @@ public class UserDao {
             rs.next();
             return rs.getInt(1);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return -1;
     }
@@ -125,7 +125,7 @@ public class UserDao {
             }
             return users;
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }
